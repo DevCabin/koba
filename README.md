@@ -7,7 +7,7 @@ Version 1.2 - Stable Release
 - **Dual-Mode AI Assistant**
   - General knowledge queries using Gemini 1.5 Pro
   - Data-driven responses using Google Sheets integration
-  - Automatic query classification to determine data needs
+  - Automatic (configurable) query classification to determine query routing needs
 
 - **Google Sheets Integration**
   - Secure OAuth2 authentication
@@ -92,7 +92,7 @@ Version 1.2 - Stable Release
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request. Hit me up @ devcabin.com
 
 ## License
 
