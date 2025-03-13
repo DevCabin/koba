@@ -7,7 +7,7 @@ Version 1.2 - Stable Release
 - **Dual-Mode AI Assistant**
   - General knowledge queries using Gemini 1.5 Pro
   - Data-driven responses using Google Sheets integration
-  - Automatic (configurable) query classification to determine query routing needs
+  - Automatic query classification to determine data needs
 
 - **Google Sheets Integration**
   - Secure OAuth2 authentication
@@ -52,47 +52,104 @@ Version 1.2 - Stable Release
    ```
 6. Access the application at `http://127.0.0.1:5001`
 
-## TODO List
+## Development Roadmap
 
-### High Priority
-- [ ] Add conversation memory/context
-  - Implement chat history storage
-  - Enable follow-up questions
-  - Maintain context across queries
-  - Add conversation export functionality
+### Phase 1: Modern UI/UX Enhancement
+#### Visual Design System
+- Implement a modern color palette with gradients
+- Create a dark/light mode system
+- Design a consistent typography system
+- Establish spacing and layout guidelines
 
-- [ ] Enhance UI/UX
-  - Implement a modern chat interface
-  - Add typing indicators
-  - Support markdown formatting in responses
-  - Add dark/light mode toggle
-  - Implement responsive design for mobile
+#### Interactive Elements
+- Add gradient shimmer effects on interactive elements
+- Implement smooth transitions and animations
+- Create a particle system background using Three.js or Particles.js
+- Design custom loading states and thinking animations
 
-### Medium Priority
-- [ ] Add data visualization
-  - Create charts for sheet data
-  - Add interactive data tables
-  - Implement data filtering options
+#### Chat Interface Modernization
+- Implement a modern chat bubble design
+- Add typing indicators with custom animations
+- Create message transition effects
+- Design a floating action button for new conversations
 
-- [ ] Improve error handling
-  - Add user-friendly error messages
-  - Implement automatic recovery procedures
-  - Add detailed error reporting
+#### Technical Implementation
+- Set up Tailwind CSS for utility-first styling
+- Integrate GSAP for advanced animations
+- Add Three.js for 3D particle effects
+- Implement CSS variables for theming
+- Optimize asset delivery and performance
 
-### Low Priority
-- [ ] Add multi-sheet support
-  - Enable querying across multiple sheets
-  - Add sheet selection interface
-  - Implement sheet relationship mapping
+### Phase 2: Conversational Memory & Context
+#### Backend Implementation
+- Set up PostgreSQL for conversation storage
+- Design conversation schema
+- Implement user session management
+- Create conversation context tracking
+- Implement conversation threading
+- Add context window management
+- Create conversation summarization
+- Implement context pruning
 
-- [ ] Add export functionality
-  - Export conversations to PDF/CSV
-  - Save chat history
-  - Share conversations
+#### Frontend Implementation
+- Design conversation thread view
+- Add conversation navigation
+- Implement context indicators
+- Create conversation grouping
+- Add conversation branching
+- Implement context switching
+- Create conversation search
+- Add conversation export
+
+### Phase 3: Advanced Features
+#### Data Visualization
+- Implement Chart.js or D3.js
+- Create interactive data tables
+- Add data filtering system
+- Implement real-time updates
+
+#### Multi-sheet Support
+- Add sheet selection interface
+- Implement cross-sheet queries
+- Create sheet relationship mapping
+- Add sheet comparison views
+
+#### Export & Sharing
+- Implement PDF export
+- Add CSV export
+- Create conversation sharing
+- Add API endpoints
+- Implement conversation templates
+- Add custom query presets
+- Create user preferences
+- Add keyboard shortcuts
+
+### Phase 4: Polish & Optimization
+#### Performance
+- Implement caching system
+- Add request batching
+- Optimize database queries
+- Add performance monitoring
+
+#### Error Handling
+- Implement comprehensive error states
+- Add recovery procedures
+- Create user feedback system
+- Implement logging system
+
+#### Documentation & Testing
+- Create API documentation
+- Add user guides
+- Create developer documentation
+- Add deployment guides
+- Implement unit tests
+- Add integration tests
+- Create end-to-end tests
+- Add performance tests
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. Hit me up @ devcabin.com
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
