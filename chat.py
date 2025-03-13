@@ -32,24 +32,38 @@ if not SPREADSHEET_ID:
 
 genai.configure(api_key=GOOGLE_API_KEY)
 
-# Initialize Gemini 1.5 Pro model
+# List available models
 try:
-    model = genai.GenerativeModel('models/gemini-1.5-pro')
+    for m in genai.list_models():
+        print(f"Available model: {m.name}")
 except Exception as e:
+    print(f"Error listing models: {e}")
+
+# Initialize Gemini Pro model
+try:
+    model = genai.GenerativeModel('models/gemini-1.5-pro')  # Using the correct model name from the list
+    print("Successfully initialized Gemini 1.5 Pro model")
+except Exception as e:
+    print(f"Error initializing model: {e}")
     raise RuntimeError(f"Failed to initialize Gemini model: {e}")
 
 # Google Sheets API setup
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-RANGE_NAME = 'Sheet1'  # We'll read the entire sheet
+RANGE_NAME = 'sheet1!A:Z'  # Read all columns from A to Z in sheet1
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
+@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=2, min=4, max=30))
 def generate_content_with_retry(model, prompt):
     try:
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        if "429" in str(e):
+        error_msg = str(e)
+        print(f"Error in generate_content: {error_msg}")
+        if "429" in error_msg:
             print("Rate limit hit, retrying after delay...")
+            time.sleep(5)  # Add an additional delay for rate limits
+        elif "NotFound" in error_msg:
+            print("Model not found, please check model name")
         raise
 
 def get_sheets_service():
@@ -86,6 +100,18 @@ def get_sheets_service():
         print(f"Error details: {sys.exc_info()}")
         return None
 
+def get_sheet_metadata(service, spreadsheet_id):
+    try:
+        spreadsheet = service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+        sheets = spreadsheet.get('sheets', [])
+        print("\nAvailable sheets:")
+        for sheet in sheets:
+            print(f"- {sheet['properties']['title']}")
+        return sheets
+    except Exception as e:
+        print(f"Error getting sheet metadata: {str(e)}")
+        return None
+
 def read_sheet():
     try:
         print("\n=== Starting sheet read ===")
@@ -97,9 +123,23 @@ def read_sheet():
         print("Getting spreadsheet...")
         sheet = service.spreadsheets()
         print(f"Reading from spreadsheet {SPREADSHEET_ID}")
+        
+        # First get sheet metadata to find the correct sheet name
+        sheets = get_sheet_metadata(service, SPREADSHEET_ID)
+        if not sheets:
+            print("Failed to get sheet metadata")
+            return None
+            
+        # Use the first sheet's name
+        sheet_name = sheets[0]['properties']['title']
+        print(f"Using sheet: {sheet_name}")
+        
+        # Update range with correct sheet name
+        range_name = f"{sheet_name}!A:Z"
+        
         result = sheet.values().get(
             spreadsheetId=SPREADSHEET_ID,
-            range=RANGE_NAME
+            range=range_name
         ).execute()
         values = result.get('values', [])
         print(f"Successfully read {len(values)} rows from sheet")
@@ -151,12 +191,14 @@ def chat():
 
             Examples:
             - "What is the capital of France?" -> NO_SHEET_DATA_NEEDED
-            - "How many females in Texas this year?" -> SHEET_DATA_NEEDED
-            - "What is the population of New York?" -> SHEET_DATA_NEEDED
+            - "What is the population of New York?" -> NO_SHEET_DATA_NEEDED
             - "Who was the first president of the United States?" -> NO_SHEET_DATA_NEEDED
             - "How many complete t rex skulls have been found?" -> NO_SHEET_DATA_NEEDED
-            - "What is the current GDP of China?" -> SHEET_DATA_NEEDED
+            - "What is the current GDP of China?" -> NO_SHEET_DATA_NEEDED
             - "What is the atomic number of gold?" -> NO_SHEET_DATA_NEEDED
+            - "How many female students from Texas this year?" -> SHEET_DATA_NEEDED
+            - "How many male students Major in English?" -> SHEET_DATA_NEEDED
+            - "How many students are in Chess Club?" -> SHEET_DATA_NEEDED
 
             Question to classify: {user_query}
             
@@ -199,4 +241,4 @@ def view_sheet():
     return render_template('sheet.html', data=sheet_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
