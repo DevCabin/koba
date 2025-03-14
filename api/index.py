@@ -14,7 +14,14 @@ if not GOOGLE_API_KEY:
     raise ValueError("No GOOGLE_API_KEY found in environment variables")
 
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+
+# List available models to ensure we're using a valid one
+try:
+    models = genai.list_models()
+    model = genai.GenerativeModel('gemini-1.5-pro-001')  # Using the latest stable version
+except Exception as e:
+    # Fallback to gemini-pro if 1.5 is not available
+    model = genai.GenerativeModel('gemini-pro')
 
 @app.route("/", methods=['GET', 'POST'])
 def chat():
@@ -24,7 +31,7 @@ def chat():
             response = model.generate_content(user_query)
             ai_response = response.text
         except Exception as e:
-            ai_response = f"Error communicating with Gemini: {e}"
+            ai_response = f"Error communicating with Gemini: {str(e)}"
         return render_template('index.html', user_query=user_query, ai_response=ai_response)
     else:
         return render_template('index.html', user_query=None, ai_response=None)
