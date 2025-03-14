@@ -29,5 +29,7 @@ def chat():
     else:
         return render_template('index.html', user_query=None, ai_response=None)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# This is needed for Vercel
+app.debug = False
+
+# Remove the if __name__ == '__main__' block as it's not needed for serverless 
