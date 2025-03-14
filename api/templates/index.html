@@ -1,62 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koba AI Assistant</title>
+    <title>Chat with Gemini</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background: #f5f5f5;
         }
         .chat-container {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .status-container {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 4px solid #007bff;
-        }
-        .status-message {
-            margin: 5px 0;
-            font-size: 0.9em;
-            color: #666;
-        }
-        .status-message.error {
-            color: #dc3545;
-        }
-        .chat-form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
-        }
-        .chat-button {
-            padding: 10px 20px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .chat-button:hover {
-            background: #0056b3;
+            padding: 20px;
+            margin-top: 20px;
         }
         .message {
             margin: 10px 0;
@@ -64,57 +21,55 @@
             border-radius: 5px;
         }
         .user-message {
-            background: #e3f2fd;
+            background-color: #e3f2fd;
             margin-left: 20%;
-            text-align: right;
         }
         .ai-message {
-            background: #f5f5f5;
+            background-color: #f5f5f5;
             margin-right: 20%;
         }
-        .system-info {
-            font-size: 0.8em;
-            color: #666;
-            text-align: center;
-            margin-top: 20px;
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0052a3;
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <h1>Koba AI Assistant</h1>
-        
-        <!-- Status Messages -->
-        <div class="status-container">
-            <h3>System Status</h3>
-            {% for message in status_messages %}
-                <div class="status-message {% if 'Error' in message %}error{% endif %}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-
-        <!-- Chat Interface -->
-        <form class="chat-form" method="POST">
-            <input type="text" name="user_query" class="chat-input" placeholder="Ask me anything..." required>
-            <button type="submit" class="chat-button">Send</button>
-        </form>
-
+        <h1>Chat with Gemini</h1>
         {% if user_query %}
             <div class="message user-message">
                 <strong>You:</strong> {{ user_query }}
             </div>
         {% endif %}
-
         {% if ai_response %}
             <div class="message ai-message">
                 <strong>AI:</strong> {{ ai_response }}
             </div>
         {% endif %}
-    </div>
-
-    <div class="system-info">
-        Powered by Google Gemini • Version 1.1.0
+        <form method="POST">
+            <div class="input-container">
+                <input type="text" name="user_query" placeholder="Type your message..." required>
+                <button type="submit">Send</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>
