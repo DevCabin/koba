@@ -8,11 +8,8 @@ load_dotenv()
 app = Flask(__name__)
 
 # Gemini API Key (Load from environment variable)
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
-print(f"API Key loaded: {GOOGLE_API_KEY[:10]}..." if GOOGLE_API_KEY else "No API key found")
-
-if not GOOGLE_API_KEY:
-    raise ValueError("No GOOGLE_API_KEY found in environment variables")
+GOOGLE_API_KEY = "AIzaSyBq7nlkEPVytgPdXYQ6hQUrN6pWuusoFsc"  # Direct key for testing
+print(f"API Key being used: {GOOGLE_API_KEY}")
 
 # Configure the Gemini API
 genai.configure(api_key=GOOGLE_API_KEY)
@@ -23,7 +20,7 @@ def chat():
     if request.method == 'POST':
         user_query = request.form['user_query']
         try:
-            print(f"Using API key: {GOOGLE_API_KEY[:10]}...")  # Debug log
+            print(f"Attempting to generate content with query: {user_query}")
             response = model.generate_content(user_query)
             ai_response = response.text
         except Exception as e:
