@@ -153,4 +153,43 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Changelog
+
+### [1.1.0] - 2024-03-14
+- Added graceful fallback mechanism for Gemini model versions
+- Implemented automatic model version detection and testing
+- Added enhanced error handling and logging
+- Improved API key configuration and validation
+- Restructured project for Vercel deployment
+
+### [1.0.0] - Initial Release
+- Basic chat functionality with Gemini AI
+- Simple web interface
+- Environment variable configuration
+- Basic error handling
+
+## Features
+- Chat interface for interacting with Gemini AI
+- Automatic model version fallback (tries newest to oldest versions)
+- Detailed error logging and user feedback
+- Vercel-ready deployment configuration
+
+## Setup
+1. Clone the repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Set up your Google API key in environment variables
+4. Deploy to Vercel or run locally with `flask run`
+
+## Environment Variables
+- `GOOGLE_API_KEY`: Your Google API key for Gemini AI
+
+## Deployment
+This application is configured for Vercel deployment with:
+- Python 3.9+ runtime
+- Serverless functions
+- Automatic environment variable configuration
+
+## License
+See LICENSE file for details. 
